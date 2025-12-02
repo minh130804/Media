@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MĐT - Nông Sản Sạch</title>
     
-    <!-- Nhúng Font chữ Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
@@ -118,19 +117,113 @@
         .slider-btn:hover { background: var(--primary-color); color: white; }
         .prev-btn { left: 20px; } .next-btn { right: 20px; }
 
-        /* --- 5. VIDEO (ĐÃ SỬA CSS: RỘNG + THẤP + OBJECT-FIT) --- */
+        /* --- 5. STYLE CHO ẢNH ĐỘNG "SIÊU LỘNG LẪY" (AUTO ANIMATION) --- */
+        .promo-section {
+            padding: 60px 0; 
+            background: #fff;
+            perspective: 1000px; /* Tạo chiều sâu cho hiệu ứng */
+        }
+
+        .video-animation-banner {
+            position: relative;
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 8px; /* Độ dày của viền chạy màu */
+            border-radius: 20px;
+            
+            /* HIỆU ỨNG 1: Viền Gradient Chạy Màu (Xanh/Cam/Vàng) */
+            background: linear-gradient(60deg, #2e7d32, #ff6f00, #ffeb3b, #ffffff, #2e7d32);
+            background-size: 300% 300%;
+            
+            /* Gộp các Animation chạy tự động */
+            animation: 
+                gradientBorderMove 3s linear infinite,   /* Viền chạy màu */
+                floatUpDown 4s ease-in-out infinite,     /* Bay lên xuống */
+                boxGlow 2s alternate infinite;           /* Hào quang tỏa ra */
+            
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        /* Container con để bo góc ảnh bên trong viền */
+        .banner-inner {
+            background: #fff;
+            border-radius: 16px; /* Nhỏ hơn parent 1 chút */
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-animation-banner img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* HIỆU ỨNG 2: Quét Sáng (Shine) Tự Động */
+        .banner-inner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            animation: shineSweep 3s infinite; /* Quét qua mỗi 3 giây */
+            pointer-events: none; /* Không chặn click */
+        }
+
+        /* --- CÁC KEYFRAMES (ĐỊNH NGHĨA CHUYỂN ĐỘNG) --- */
+        
+        /* 1. Viền chạy màu */
+        @keyframes gradientBorderMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 2. Bay lơ lửng (Floating) */
+        @keyframes floatUpDown {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); } /* Bay lên 15px */
+            100% { transform: translateY(0px); }
+        }
+
+        /* 3. Hào quang (Glow Pulse) */
+        @keyframes boxGlow {
+            0% { box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3); }
+            100% { box-shadow: 0 20px 60px rgba(255, 111, 0, 0.6); } /* Màu cam rực rỡ */
+        }
+
+        /* 4. Quét sáng (Shine) */
+        @keyframes shineSweep {
+            0% { left: -100%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { left: 200%; opacity: 0; }
+        }
+
+
+        /* --- 6. VIDEO SECTION --- */
         .video-section { 
             background-color: #111; 
             padding: 80px 0; 
             background-image: radial-gradient(#222 1px, transparent 1px);
             background-size: 20px 20px;
         }
+        
         .video-container {
-            /* Đặt kích thước to chiếm trọn ngang (max-width theo container) và giới hạn chiều cao */
             position: relative; 
             width: 100%; 
-            max-width: 1000px; /* Rộng hơn */
-            height: 500px;     /* Giới hạn chiều cao để trông gọn */
+            max-width: 1000px;
+            height: 500px;
             margin: 0 auto; 
             border-radius: 20px; 
             overflow: hidden;
@@ -139,14 +232,10 @@
             background: #000; 
         }
         video { 
-            width: 100%; 
-            height: 100%; /* Chiếm full chiều cao đã định */
-            object-fit: cover; /* Cắt bớt phần thừa (zoom) để không bị méo hình */
-            object-position: center; /* Căn giữa video */
+            width: 100%; height: 100%; 
+            object-fit: cover; object-position: center; 
             display: block; 
         }
-        
-        /* Chỉnh màu chữ phụ đề */
         video::cue {
             background: rgba(0, 0, 0, 0.6);
             color: white;
@@ -154,7 +243,7 @@
             border-radius: 5px;
         }
 
-        /* --- 6. SẢN PHẨM --- */
+        /* --- 7. SẢN PHẨM --- */
         .section { padding: 80px 50px; }
         .container { max-width: 1200px; margin: 0 auto; }
         .section-title {
@@ -179,33 +268,18 @@
 
         .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
         
-        /* CARD SẢN PHẨM */
         .product-card {
-            background: var(--white); 
-            border-radius: 15px; 
-            overflow: hidden;
-            border: 1px solid #eee;
-            transition: all 0.4s ease; 
-            position: relative;
-            display: flex; flex-direction: column;
+            background: var(--white); border-radius: 15px; overflow: hidden;
+            border: 1px solid #eee; transition: all 0.4s ease; 
+            position: relative; display: flex; flex-direction: column;
         }
         .product-card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
             border-color: var(--secondary-color);
         }
-
-        .img-wrapper {
-            position: relative;
-            overflow: hidden;
-            height: 220px;
-        }
-        .product-img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            transition: transform 0.5s ease;
-        }
+        .img-wrapper { position: relative; overflow: hidden; height: 220px; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .product-card:hover .product-img { transform: scale(1.1); }
-
         .tag {
             position: absolute; top: 15px; left: 15px; 
             background: linear-gradient(45deg, #ff3d00, #ff9100); 
@@ -213,29 +287,19 @@
             border-radius: 4px; font-size: 0.75rem; font-weight: 700; z-index: 2;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-
         .product-info { padding: 20px; text-align: center; background: white; z-index: 2; position: relative; }
-        
         .product-name { 
-            font-family: 'Montserrat', sans-serif; 
-            font-size: 1.1rem; font-weight: 700; color: #333;
-            margin-bottom: 8px;
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+            font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 700; color: #333;
+            margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
-        
         .product-price { 
-            color: var(--primary-color); 
-            font-weight: 800; font-size: 1.2rem;
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 0; 
+            color: var(--primary-color); font-weight: 800; font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif; margin-bottom: 0; 
         }
 
-        /* --- 7. FOOTER --- */
+        /* --- 8. FOOTER --- */
         footer { 
-            background: #1b261b; 
-            color: #ccc; 
-            padding: 60px 20px; 
-            text-align: center; 
+            background: #1b261b; color: #ccc; padding: 60px 20px; text-align: center; 
         }
         footer .logo-text { font-size: 2.5rem; margin-bottom: 20px; display: inline-block; }
 
@@ -249,7 +313,9 @@
             header { padding: 10px 20px; }
             nav { display: none; }
             .slider-container { aspect-ratio: 16/9; }
-            .video-container { max-width: 90%; height: 300px; /* Chiều cao nhỏ hơn trên mobile */ }
+            .video-container { max-width: 90%; height: 300px; }
+            .video-animation-banner { max-width: 95%; }
+            .promo-section { padding: 30px 0; }
         }
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -259,7 +325,6 @@
 </head>
 <body>
 
-    <!-- HEADER -->
     <header id="header">
         <a href="#" class="logo-container">
             <img src="Unknown.jpg" alt="Logo MDT" class="logo-img">
@@ -277,12 +342,11 @@
                         <a href="#products" onclick="filterProducts('saykho')">Hạt & Đồ sấy khô</a>
                     </div>
                 </li>
-                <li><a href="#about">Thông tin</a></li>
+                <li><a href="#about">Thông tin về chúng tôi</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- HERO -->
     <section class="hero" id="home">
         <div class="hero-content">
             <h1 class="hero-title">Nông Trại Hữu Cơ</h1>
@@ -291,13 +355,12 @@
         </div>
     </section>
 
-    <!-- SLIDER -->
     <section class="slider-section">
         <div class="container">
             <div class="slider-container">
                 <div class="slider-wrapper">
                     <div class="slide"><img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1200" alt="Slide 1"></div>
-                    <div class="slide"><img src="rau các loại.jpg" alt="Slide 2"></div>
+                    <div class="slide"><img src="rau các loại.jpg" alt="Slide 2"></div>
                     <div class="slide"><img src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?q=80&w=1200" alt="Slide 3"></div>
                 </div>
                 <button class="slider-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
@@ -306,15 +369,22 @@
         </div>
     </section>
 
-    <!-- VIDEO GIỚI THIỆU -->
+    <section class="section promo-section">
+        <div class="container">
+            <div class="video-animation-banner reveal">
+                <div class="banner-inner">
+                    <img src="nongtraidep.jpg" alt="Nông trại vui vẻ">
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="section video-section">
         <div class="container">
-            <h2 class="section-title" style="color: #fff;">Câu Chuyện Của Chúng Tôi</h2>
+            <h2 class="section-title" style="color: #fff; margin-bottom: 40px;">Câu Chuyện Của Chúng Tôi</h2>
+
             <div class="video-container reveal">
-                <!-- VIDEO LOCAL -->
                 <video controls poster="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000">
-                    <source src="Unknown.mp4" type="video/mp4">
-                    <!-- File phụ đề subtitles.vtt -->
+                    <source src="Unknown-2.mp4" type="video/mp4">
                     <track src="subtitles.vtt" kind="subtitles" srclang="vi" label="Tiếng Việt" default>
                     Trình duyệt không hỗ trợ video.
                 </video>
@@ -322,7 +392,6 @@
         </div>
     </section>
 
-    <!-- SẢN PHẨM -->
     <section class="section" id="products">
         <div class="container">
             <h2 class="section-title">Sản Phẩm Tươi Mới</h2>
@@ -335,11 +404,10 @@
             </div>
 
             <div class="products-grid">
-                <!-- SẢN PHẨM 1 -->
                 <div class="product-card reveal" data-category="raucu">
                     <span class="tag">Bán Chạy</span>
                     <div class="img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600" class="product-img" alt="Rau">
+                        <img src="cai-xanh-2-1675051487276.png.webp" class="product-img" alt="Rau">
                     </div>
                     <div class="product-info">
                         <h4 class="product-name">Cải Xanh Hữu Cơ</h4>
@@ -347,7 +415,6 @@
                     </div>
                 </div>
 
-                <!-- SẢN PHẨM 2 -->
                 <div class="product-card reveal" data-category="raucu">
                     <div class="img-wrapper">
                         <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=600" class="product-img" alt="Cà chua">
@@ -358,7 +425,6 @@
                     </div>
                 </div>
 
-                <!-- SẢN PHẨM 3 -->
                 <div class="product-card reveal" data-category="raucu">
                     <span class="tag">Mới</span>
                     <div class="img-wrapper">
@@ -370,10 +436,9 @@
                     </div>
                 </div>
 
-                <!-- SẢN PHẨM 4 -->
                 <div class="product-card reveal" data-category="traicay">
                     <div class="img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=600" class="product-img" alt="Dâu">
+                        <img src="5-1.png" class="product-img" alt="Dâu">
                     </div>
                     <div class="product-info">
                         <h4 class="product-name">Dâu Tây Nhật</h4>
@@ -381,7 +446,6 @@
                     </div>
                 </div>
 
-                <!-- SẢN PHẨM 5 -->
                 <div class="product-card reveal" data-category="traicay">
                     <div class="img-wrapper">
                         <img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?q=80&w=600" class="product-img" alt="Táo">
@@ -392,7 +456,6 @@
                     </div>
                 </div>
 
-                <!-- SẢN PHẨM 6 -->
                 <div class="product-card reveal" data-category="saykho">
                     <span class="tag">-10%</span>
                     <div class="img-wrapper">
@@ -404,7 +467,6 @@
                     </div>
                 </div>
 
-                 <!-- SẢN PHẨM 7 -->
                  <div class="product-card reveal" data-category="traicay">
                     <div class="img-wrapper">
                         <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba?q=80&w=600" class="product-img" alt="Dứa">
@@ -415,10 +477,9 @@
                     </div>
                 </div>
 
-                 <!-- SẢN PHẨM 8 -->
                  <div class="product-card reveal" data-category="raucu">
                     <div class="img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?q=80&w=600" class="product-img" alt="Bí">
+                        <img src="cach-trong-bi-ho-lo-4.webp" class="product-img" alt="Bí">
                     </div>
                     <div class="product-info">
                         <h4 class="product-name">Bí Ngô Hồ Lô</h4>
@@ -430,7 +491,6 @@
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
     <section class="section" id="about" style="background-color: #f8fdf8;">
         <div class="container reveal">
             <h2 class="section-title">Về Chúng Tôi</h2>
@@ -456,7 +516,6 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer id="contact">
         <div class="logo-text" style="color:white; margin-bottom: 10px;">MĐT</div>
         <p style="font-style: italic; margin-bottom: 30px; opacity: 0.7;">Chất lượng tạo nên niềm tin</p>
@@ -477,9 +536,8 @@
         </div>
     </footer>
 
-    <!-- SCRIPT -->
     <script>
-        // 1. Logic lọc sản phẩm (Đã tối ưu)
+        // 1. Logic lọc sản phẩm
         function filterProducts(category) {
             const items = document.querySelectorAll('.product-card');
             const btns = document.querySelectorAll('.filter-btn');
@@ -495,9 +553,8 @@
             });
 
             items.forEach(item => {
-                // Reset animation để hiệu ứng chạy lại khi lọc
                 item.style.animation = 'none';
-                item.offsetHeight; /* trigger reflow */
+                item.offsetHeight; 
                 item.style.animation = null; 
 
                 if (category === 'all' || item.getAttribute('data-category') === category) {
@@ -531,7 +588,7 @@
             if(index >= slides.length) index = 0;
             track.style.transform = `translateX(-${index * 100}%)`;
         }
-        setInterval(() => moveSlide(1), 4000); // 4 giây
+        setInterval(() => moveSlide(1), 4000); 
     </script>
 </body>
 </html>
