@@ -118,98 +118,59 @@
         .prev-btn { left: 20px; } .next-btn { right: 20px; }
 
         /* --- 5. STYLE CHO ẢNH ĐỘNG "SIÊU LỘNG LẪY" (AUTO ANIMATION) --- */
-        .promo-section {
-            padding: 60px 0; 
-            background: #fff;
-            perspective: 1000px; /* Tạo chiều sâu cho hiệu ứng */
-        }
+        /* Tìm và thay thế đoạn CSS .video-animation-banner cũ bằng đoạn này */
 
-        .video-animation-banner {
-            position: relative;
-            max-width: 900px; 
-            margin: 0 auto; 
-            padding: 8px; /* Độ dày của viền chạy màu */
-            border-radius: 20px;
-            
-            /* HIỆU ỨNG 1: Viền Gradient Chạy Màu (Xanh/Cam/Vàng) */
-            background: linear-gradient(60deg, #2e7d32, #ff6f00, #ffeb3b, #ffffff, #2e7d32);
-            background-size: 300% 300%;
-            
-            /* Gộp các Animation chạy tự động */
-            animation: 
-                gradientBorderMove 3s linear infinite,   /* Viền chạy màu */
-                floatUpDown 4s ease-in-out infinite,     /* Bay lên xuống */
-                boxGlow 2s alternate infinite;           /* Hào quang tỏa ra */
-            
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
+.promo-section {
+    padding: 60px 0;
+    background: url('https://www.transparenttextures.com/patterns/cubes.png'), #f9f9f9; /* Thêm chút hoa văn nền nhẹ nếu thích */
+    overflow: hidden;
+}
 
-        /* Container con để bo góc ảnh bên trong viền */
-        .banner-inner {
-            background: #fff;
-            border-radius: 16px; /* Nhỏ hơn parent 1 chút */
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
+.video-animation-banner {
+    position: relative;
+    max-width: 350px; /* Giới hạn chiều rộng nhỏ lại cho vừa vặn */
+    margin: 0 auto;
+    background: transparent; /* Bỏ nền màu */
+    box-shadow: none; /* Bỏ bóng đen cũ */
+    animation: floatCharacter 3s ease-in-out infinite; /* Chỉ giữ hiệu ứng bay */
+}
 
-        .video-animation-banner img {
-            width: 100%;
-            height: auto;
-            max-height: 300px;
-            object-fit: cover;
-            display: block;
-        }
+.banner-inner {
+    background: transparent;
+    border-radius: 0;
+}
 
-        /* HIỆU ỨNG 2: Quét Sáng (Shine) Tự Động */
-        .banner-inner::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                to right, 
-                transparent 0%, 
-                rgba(255, 255, 255, 0.4) 50%, 
-                transparent 100%
-            );
-            transform: skewX(-25deg);
-            animation: shineSweep 3s infinite; /* Quét qua mỗi 3 giây */
-            pointer-events: none; /* Không chặn click */
-        }
+.video-animation-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.2)); /* Tạo bóng đổ thật cho nhân vật */
+}
 
-        /* --- CÁC KEYFRAMES (ĐỊNH NGHĨA CHUYỂN ĐỘNG) --- */
-        
-        /* 1. Viền chạy màu */
-        @keyframes gradientBorderMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+/* Tạo một vệt bóng mờ dưới chân */
+.video-animation-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 15px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 50%;
+    animation: shadowScale 3s ease-in-out infinite;
+    filter: blur(5px);
+}
 
-        /* 2. Bay lơ lửng (Floating) */
-        @keyframes floatUpDown {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); } /* Bay lên 15px */
-            100% { transform: translateY(0px); }
-        }
+@keyframes floatCharacter {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
 
-        /* 3. Hào quang (Glow Pulse) */
-        @keyframes boxGlow {
-            0% { box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3); }
-            100% { box-shadow: 0 20px 60px rgba(255, 111, 0, 0.6); } /* Màu cam rực rỡ */
-        }
-
-        /* 4. Quét sáng (Shine) */
-        @keyframes shineSweep {
-            0% { left: -100%; opacity: 0; }
-            50% { opacity: 1; }
-            100% { left: 200%; opacity: 0; }
-        }
-
+@keyframes shadowScale {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+    50% { transform: translateX(-50%) scale(0.7); opacity: 0.4; } /* Khi bay lên thì bóng nhỏ lại */
+}
 
         /* --- 6. VIDEO SECTION --- */
         .video-section { 
@@ -301,7 +262,31 @@
         footer { 
             background: #1b261b; color: #ccc; padding: 60px 20px; text-align: center; 
         }
-        footer .logo-text { font-size: 2.5rem; margin-bottom: 20px; display: inline-block; }
+        
+        /* CSS Mới cho Logo ở Footer */
+        .footer-logo-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; /* Khoảng cách giữa logo và chữ */
+            margin-bottom: 20px;
+        }
+        .footer-logo-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #fff; /* Viền trắng để nổi trên nền đen */
+            object-fit: cover;
+            background-color: white;
+        }
+        .footer-logo-text {
+            font-family: 'Dancing Script', cursive; 
+            font-size: 2.5rem; 
+            font-weight: 700; 
+            color: #fff;
+            margin-bottom: 0;
+            line-height: 1;
+        }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 1024px) {
@@ -373,7 +358,7 @@
         <div class="container">
             <div class="video-animation-banner reveal">
                 <div class="banner-inner">
-                    <img src="nongtraidep.jpg" alt="Nông trại vui vẻ">
+                    <img src="tomato-4630_256.gif" alt="Nông trại vui vẻ">
                 </div>
             </div>
         </div>
@@ -522,7 +507,11 @@
     </section>
 
     <footer id="contact">
-        <div class="logo-text" style="color:white; margin-bottom: 10px;">MĐT</div>
+        <div class="footer-logo-box">
+            <img src="Unknown.jpg" alt="Logo MDT" class="footer-logo-img">
+            <div class="footer-logo-text">MĐT</div>
+        </div>
+
         <p style="font-style: italic; margin-bottom: 30px; opacity: 0.7;">Chất lượng tạo nên niềm tin</p>
         
         <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 30px;">
@@ -532,12 +521,12 @@
             </div>
             <div>
                 <strong style="color:var(--accent-color); display:block; margin-bottom:5px;">LIÊN HỆ</strong>
-                0909 999 999<br>contact@mdtfarm.vn
+                0999 999 999<br>mdt@mdtfarm.vn
             </div>
         </div>
         
         <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.9rem;">
-            &copy; 2023 MĐT Farm. All rights reserved.
+            &copy; 2025 MĐT Farm. All rights reserved.
         </div>
     </footer>
 
