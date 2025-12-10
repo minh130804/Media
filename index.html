@@ -120,56 +120,66 @@
         /* --- 5. STYLE CHO ẢNH ĐỘNG "SIÊU LỘNG LẪY" (AUTO ANIMATION) --- */
         /* Tìm và thay thế đoạn CSS .video-animation-banner cũ bằng đoạn này */
 
-.promo-section {
-    padding: 60px 0;
-    background: url('https://www.transparenttextures.com/patterns/cubes.png'), #f9f9f9; /* Thêm chút hoa văn nền nhẹ nếu thích */
-    overflow: hidden;
+/* --- SỬA LẠI CSS CHO MASCOT NHỎ GỌN --- */
+/* --- MASCOT TRÔI NỔI GÓC MÀN HÌNH --- */
+.fixed-mascot {
+    position: fixed; /* Giúp cố định vị trí khi scroll */
+    bottom: 30px;    /* Cách đáy màn hình 30px */
+    right: 30px;     /* Cách lề phải 30px */
+    width: 130px;    /* Kích thước vừa phải */
+    z-index: 9999;   /* Luôn nằm trên các phần tử khác */
+    animation: floatCharacter 3s ease-in-out infinite; /* Hiệu ứng bay lên xuống */
+    cursor: pointer; /* Con trỏ tay khi di chuột vào */
+    transition: transform 0.3s ease; /* Hiệu ứng mượt khi hover */
 }
 
-.video-animation-banner {
-    position: relative;
-    max-width: 350px; /* Giới hạn chiều rộng nhỏ lại cho vừa vặn */
-    margin: 0 auto;
-    background: transparent; /* Bỏ nền màu */
-    box-shadow: none; /* Bỏ bóng đen cũ */
-    animation: floatCharacter 3s ease-in-out infinite; /* Chỉ giữ hiệu ứng bay */
+/* Hiệu ứng khi di chuột vào mascot: Phóng to nhẹ */
+.fixed-mascot:hover {
+    transform: scale(1.1) translateY(-10px); 
 }
 
-.banner-inner {
-    background: transparent;
-    border-radius: 0;
-}
-
-.video-animation-banner img {
+.fixed-mascot img {
     width: 100%;
     height: auto;
     display: block;
-    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.2)); /* Tạo bóng đổ thật cho nhân vật */
+    /* Tạo bóng đổ trực tiếp cho ảnh giúp tự nhiên hơn */
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); 
 }
 
-/* Tạo một vệt bóng mờ dưới chân */
-.video-animation-banner::after {
+/* Tạo bóng mờ dưới chân (giả lập mặt đất) */
+.fixed-mascot::after {
     content: '';
     position: absolute;
-    bottom: -20px;
+    bottom: -5px;
     left: 50%;
     transform: translateX(-50%);
     width: 60%;
-    height: 15px;
-    background: rgba(0,0,0,0.15);
+    height: 10px;
+    background: rgba(0,0,0,0.2);
     border-radius: 50%;
     animation: shadowScale 3s ease-in-out infinite;
-    filter: blur(5px);
+    filter: blur(4px);
+    z-index: -1;
 }
 
+/* --- ANIMATION --- */
 @keyframes floatCharacter {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(-15px); } /* Bay lên 15px */
 }
 
 @keyframes shadowScale {
     0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
-    50% { transform: translateX(-50%) scale(0.7); opacity: 0.4; } /* Khi bay lên thì bóng nhỏ lại */
+    50% { transform: translateX(-50%) scale(0.6); opacity: 0.4; } /* Bóng nhỏ lại khi bay lên */
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 768px) {
+    .fixed-mascot {
+        width: 90px; /* Nhỏ hơn trên điện thoại để không che nội dung */
+        bottom: 15px;
+        right: 15px;
+    }
 }
 
         /* --- 6. VIDEO SECTION --- */
@@ -354,15 +364,7 @@
         </div>
     </section>
 
-    <section class="section promo-section">
-        <div class="container">
-            <div class="video-animation-banner reveal">
-                <div class="banner-inner">
-                    <img src="tomato-4630_256.gif" alt="Nông trại vui vẻ">
-                </div>
-            </div>
-        </div>
-    </section>
+    
     <section class="section video-section">
         <div class="container">
             <h2 class="section-title" style="color: #fff; margin-bottom: 40px;">Câu Chuyện Của Chúng Tôi</h2>
@@ -482,29 +484,35 @@
     </section>
 
     <section class="section" id="about" style="background-color: #f8fdf8;">
-        <div class="container reveal">
-            <h2 class="section-title">Về Chúng Tôi</h2>
-            <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 300px;">
-                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800" style="width: 100%; border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1);" alt="Farm">
-                </div>
-                <div style="flex: 1; min-width: 300px;">
-                    <h3 style="font-family:'Playfair Display', serif; font-size: 2rem; margin-bottom: 20px; color: var(--primary-color);">Từ Nông Trại Đến Bàn Ăn</h3>
-                    <p style="font-size: 1.1rem; margin-bottom: 15px; color: #555;">
-                        "MĐT Farm" không chỉ là một cái tên, đó là lời cam kết về sự minh bạch và chất lượng. Chúng tôi kiểm soát chặt chẽ từ hạt giống đến khi thu hoạch.
-                    </p>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px;">
-                        <div style="background:white; padding:15px; border-radius:10px; border-left:4px solid var(--primary-color);">
-                            <strong>🌱 100% Organic</strong><br><span style="font-size:0.9rem">Không hóa chất</span>
-                        </div>
-                        <div style="background:white; padding:15px; border-radius:10px; border-left:4px solid var(--accent-color);">
-                            <strong>🚀 Giao Nhanh</strong><br><span style="font-size:0.9rem">Trong 2H nội thành</span>
-                        </div>
+    <div class="container reveal">
+        <h2 class="section-title">Về Chúng Tôi</h2>
+        
+        <div style="display: flex; gap: 30px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            
+            <div style="flex: 1; min-width: 300px;">
+                <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800" style="width: 100%; border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1);" alt="Farm">
+            </div>
+
+            <div style="flex: 1.2; min-width: 300px;">
+                <h3 style="font-family:'Playfair Display', serif; font-size: 2rem; margin-bottom: 20px; color: var(--primary-color);">Từ Nông Trại Đến Bàn Ăn</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 15px; color: #555;">
+                    "MĐT Farm" không chỉ là một cái tên, đó là lời cam kết về sự minh bạch và chất lượng. Chúng tôi kiểm soát chặt chẽ từ hạt giống đến khi thu hoạch.
+                </p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px;">
+                    <div style="background:white; padding:15px; border-radius:10px; border-left:4px solid var(--primary-color);">
+                        <strong>🌱 100% Organic</strong><br><span style="font-size:0.9rem">Không hóa chất</span>
+                    </div>
+                    <div style="background:white; padding:15px; border-radius:10px; border-left:4px solid var(--accent-color);">
+                        <strong>🚀 Giao Nhanh</strong><br><span style="font-size:0.9rem">Trong 2H nội thành</span>
                     </div>
                 </div>
             </div>
+
+            
+
         </div>
-    </section>
+    </div>
+</section>
 
     <footer id="contact">
         <div class="footer-logo-box">
@@ -584,5 +592,8 @@
         }
         setInterval(() => moveSlide(1), 4000); 
     </script>
+    <div class="fixed-mascot">
+    <img src="tomato-4630_256.gif" alt="Mascot">
+</div>
 </body>
 </html>
